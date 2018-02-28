@@ -1,7 +1,7 @@
 <template>
     <div>
         <li class="list-group-item" :class="className"><slot></slot></li>
-        <small class="badge float-right" :class="badgeClass">You</small>
+        <small class="badge badge-pill float-sm-right" :class="user">You</small>
     </div>
 </template>
 
@@ -11,12 +11,12 @@
             'color'
         ],
         computed:{
-            className(){
-                return 'list-group-item-'+this.color;
-            },
-            badgeClass(){
-                return 'badge-'+this.color;
-            }
+          className(){
+              return 'list-group-item-'+this.color;
+          },
+          user(){
+              return 'badge-'+this.color;
+          }
         },
         mounted() {
             console.log('Component mounted.')
