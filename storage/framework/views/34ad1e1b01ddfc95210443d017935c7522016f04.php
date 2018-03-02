@@ -19,7 +19,7 @@
     <div class="container">
         <div class="row" id="app">
             <h1></h1>
-            <div class="offset-4 col-4">
+            <div class="offset-4 col-4 offset-sm-1 col-sm-8">
 
                 <li class="list-group-item active">Chat Group</li>
                 <ul class="list-group" v-chat-scroll>
@@ -30,6 +30,7 @@
                              :side=chat.side[index]
                     >{{value}}</message>
                 </ul>
+                <div class="badge badge-pill badge-info">{{ typeing }}</div>
                 <input type="text" class="form-control" placeholder="Type your message here...."
                        v-model="message" v-on:keyup.enter="send"/>
             </div>

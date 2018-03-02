@@ -24614,12 +24614,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_chat_scroll__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_chat_scroll___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_chat_scroll__);
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
 __webpack_require__(14);
 
 window.Vue = __webpack_require__(11);
@@ -24628,12 +24622,6 @@ window.Vue = __webpack_require__(11);
 
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_chat_scroll___default.a);
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('message', __webpack_require__(42));
 
@@ -24646,6 +24634,15 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             user: [],
             color: [],
             side: []
+        },
+
+        typeing: ''
+    },
+    watch: {
+        message: function message() {
+            Echo.private('chat').whisper('typing', {
+                name: this.message
+            });
         }
     },
     methods: {
@@ -24680,6 +24677,13 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             _this2.chat.user.push(e.user);
             _this2.chat.color.push('warning');
             _this2.chat.side.push('right');
+        }).listenForWhisper('typing', function (e) {
+            if (e.name != '') {
+                _this2.typeing = 'typing...';
+                console.log('typing...');
+            } else {
+                _this2.typeing = '';
+            }
         });
     }
 });

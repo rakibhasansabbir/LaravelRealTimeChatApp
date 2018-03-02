@@ -10,7 +10,7 @@
         props:[
             'color',
             'user',
-            'side'
+            'side',
         ],
         computed:{
           className(){
