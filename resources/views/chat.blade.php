@@ -26,8 +26,9 @@
                     <message v-for="value,index in chat.message"
                              :key=value.index
                              :color=chat.color[index]
-                             :user= chat.user[index]
+                             :user=chat.user[index]
                              :side=chat.side[index]
+                             :time=chat.time[index]
                     >@{{value}}</message>
                 </ul>
                 <div class="badge badge-pill badge-info">@{{ typeing }}</div>

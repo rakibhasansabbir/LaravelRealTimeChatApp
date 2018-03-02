@@ -24633,7 +24633,8 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             message: [],
             user: [],
             color: [],
-            side: []
+            side: [],
+            time: []
         },
 
         typeing: ''
@@ -24655,6 +24656,7 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                 this.chat.user.push('you');
                 this.chat.color.push('success');
                 this.chat.side.push('left');
+                this.chat.time.push(this.getTime());
 
                 axios.post('/send', {
                     message: this.message
@@ -24666,8 +24668,13 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                     console.log(error);
                 });
             }
+        },
+        getTime: function getTime() {
+            var time = new Date();
+            return time.getHours() + ':' + time.getMinutes();
         }
     },
+
     mounted: function mounted() {
         var _this2 = this;
 
@@ -24677,6 +24684,7 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             _this2.chat.user.push(e.user);
             _this2.chat.color.push('warning');
             _this2.chat.side.push('right');
+            _this2.chat.time.push(_this2.getTime());
         }).listenForWhisper('typing', function (e) {
             if (e.name != '') {
                 _this2.typeing = 'typing...';
@@ -52154,15 +52162,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['color', 'user', 'side'],
+    props: ['color', 'user', 'side', 'time'],
     computed: {
         className: function className() {
             return 'list-group-item-' + this.color + ' text-' + this.side;
         },
         badgeClass: function badgeClass() {
-            return 'badge-' + this.color;
+            if (this.side == 'left') {
+
+                return 'badge-' + this.color + ' float-sm-right';
+            } else {
+                return 'badge-' + this.color + ' float-sm-left';
+            }
         }
     },
     mounted: function mounted() {
@@ -52182,18 +52202,23 @@ var render = function() {
     _c(
       "li",
       { staticClass: "list-group-item ", class: _vm.className },
-      [_vm._t("default")],
+      [
+        _vm._t("default"),
+        _vm._v(" "),
+        _c("ul", [
+          _c(
+            "small",
+            { staticClass: "badge badge-pill", class: _vm.badgeClass },
+            [_vm._v(_vm._s(_vm.user))]
+          ),
+          _vm._v(" "),
+          _c("small", { staticClass: "alert-info" }, [_vm._v(_vm._s(_vm.time))])
+        ])
+      ],
       2
     ),
     _vm._v(" "),
-    _c(
-      "small",
-      {
-        staticClass: "badge badge-pill float-sm-right ",
-        class: _vm.badgeClass
-      },
-      [_vm._v(_vm._s(_vm.user))]
-    )
+    _c("br")
   ])
 }
 var staticRenderFns = []

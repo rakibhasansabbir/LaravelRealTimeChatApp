@@ -1,7 +1,14 @@
 <template>
     <div>
-        <li class="list-group-item " :class="className"><slot></slot></li>
-        <small class="badge badge-pill float-sm-right " :class="badgeClass">{{ user }}</small>
+        <li class="list-group-item " :class="className"><slot></slot>
+        <!--<time style="font-size: 9px; margin-top: 10px; color: black" >{{time}}</time>-->
+            <ul>
+                 <small class="badge badge-pill" :class="badgeClass">{{ user }}</small>
+                 <small class="alert-info">{{ time }}</small>
+             </ul>
+
+        </li>
+        <br>
     </div>
 </template>
 
@@ -11,13 +18,20 @@
             'color',
             'user',
             'side',
+            'time'
         ],
         computed:{
           className(){
               return 'list-group-item-'+this.color+' text-'+this.side;
           },
           badgeClass(){
-              return 'badge-'+this.color;
+              if (this.side == 'left'){
+
+                  return 'badge-'+this.color+' float-sm-right';
+              }else {
+                  return 'badge-'+this.color+' float-sm-left';
+
+              }
           }
 
         },

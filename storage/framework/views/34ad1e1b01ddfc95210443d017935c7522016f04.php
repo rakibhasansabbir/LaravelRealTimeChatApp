@@ -26,11 +26,12 @@
                     <message v-for="value,index in chat.message"
                              :key=value.index
                              :color=chat.color[index]
-                             :user= chat.user[index]
+                             :user=chat.user[index]
                              :side=chat.side[index]
+                             :time=chat.time[index]
                     >{{value}}</message>
                 </ul>
-                <div class="badge badge-pill badge-info">{{ typeing }}</div>
+                <div class="badge badge-pill badge-info">{{ user }}</div>
                 <input type="text" class="form-control" placeholder="Type your message here...."
                        v-model="message" v-on:keyup.enter="send"/>
             </div>
