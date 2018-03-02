@@ -38,5 +38,11 @@ const app = new Vue({
 
             }
         }
+    },
+    mounted(){
+        Echo.private('chat')
+            .listen('ChatEvent', (e) => {
+                console.log(e);
+            });
     }
 });
