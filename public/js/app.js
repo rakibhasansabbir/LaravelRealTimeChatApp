@@ -24637,7 +24637,8 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             time: []
         },
 
-        typeing: ''
+        typeing: '',
+        onlineUser: 0
     },
     watch: {
         message: function message() {
@@ -24692,6 +24693,14 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             } else {
                 _this2.typeing = '';
             }
+        });
+
+        Echo.join('chat').here(function (users) {
+            _this2.onlineUser = users.length;
+        }).joining(function (user) {
+            _this2.onlineUser += 1;
+        }).leaving(function (user) {
+            _this2.onlineUser -= 1;
         });
     }
 });

@@ -21,7 +21,7 @@
             <h1></h1>
             <div class="offset-4 col-4 offset-sm-1 col-sm-8">
 
-                <li class="list-group-item active">Chat Group</li>
+                <li class="list-group-item active">Chat Group<small class="badge badge-pill badge-danger">{{ onlineUser }}</small></li>
                 <ul class="list-group" v-chat-scroll>
                     <message v-for="value,index in chat.message"
                              :key=value.index
@@ -31,7 +31,7 @@
                              :time=chat.time[index]
                     >{{value}}</message>
                 </ul>
-                <div class="badge badge-pill badge-info">{{ user }}</div>
+                <div class="badge badge-pill badge-info">{{ typeing }}</div>
                 <input type="text" class="form-control" placeholder="Type your message here...."
                        v-model="message" v-on:keyup.enter="send"/>
             </div>

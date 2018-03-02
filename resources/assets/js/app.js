@@ -21,7 +21,8 @@ const app = new Vue({
             time: []
         },
 
-        typeing: ''
+        typeing: '',
+        onlineUser: 0
     },
     watch:{
         message(){
@@ -80,6 +81,17 @@ const app = new Vue({
                 }else {
                     this.typeing = '';
                 }
+            });
+
+        Echo.join('chat')
+            .here((users) => {
+                this.onlineUser = users.length;
+            })
+            .joining((user) => {
+                this.onlineUser +=1;
+            })
+            .leaving((user) => {
+                this.onlineUser -=1;
             });
     }
 });
