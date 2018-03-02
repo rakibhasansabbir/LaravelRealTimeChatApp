@@ -1,22 +1,25 @@
 <template>
     <div>
-        <li class="list-group-item" :class="className"><slot></slot></li>
-        <small class="badge badge-pill float-sm-right" :class="user">You</small>
+        <li class="list-group-item " :class="className"><slot></slot></li>
+        <small class="badge badge-pill float-sm-right " :class="badgeClass">{{ user }}</small>
     </div>
 </template>
 
 <script>
     export default {
         props:[
-            'color'
+            'color',
+            'user',
+            'side'
         ],
         computed:{
           className(){
-              return 'list-group-item-'+this.color;
+              return 'list-group-item-'+this.color+' text-'+this.side;
           },
-          user(){
+          badgeClass(){
               return 'badge-'+this.color;
           }
+
         },
         mounted() {
             console.log('Component mounted.')

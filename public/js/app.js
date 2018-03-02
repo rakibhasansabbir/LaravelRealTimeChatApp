@@ -24614,7 +24614,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_chat_scroll__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_chat_scroll___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_chat_scroll__);
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -24624,6 +24623,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __webpack_require__(14);
 
 window.Vue = __webpack_require__(11);
+
 
 
 
@@ -24642,21 +24642,44 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     data: {
         message: '',
         chat: {
-            message: []
+            message: [],
+            user: [],
+            color: [],
+            side: []
         }
     },
     methods: {
         send: function send() {
+            var _this = this;
+
             if (this.message.length != 0) {
 
                 this.chat.message.push(this.message);
-                this.message = '';
+                this.chat.user.push('you');
+                this.chat.color.push('success');
+                this.chat.side.push('left');
+
+                axios.post('/send', {
+                    message: this.message
+
+                }).then(function (response) {
+                    console.log(response);
+                    _this.message = '';
+                }).catch(function (error) {
+                    console.log(error);
+                });
             }
         }
     },
     mounted: function mounted() {
+        var _this2 = this;
+
         Echo.private('chat').listen('ChatEvent', function (e) {
-            console.log(e);
+
+            _this2.chat.message.push(e.message);
+            _this2.chat.user.push(e.user);
+            _this2.chat.color.push('warning');
+            _this2.chat.side.push('right');
         });
     }
 });
@@ -52129,12 +52152,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['color'],
+    props: ['color', 'user', 'side'],
     computed: {
         className: function className() {
-            return 'list-group-item-' + this.color;
+            return 'list-group-item-' + this.color + ' text-' + this.side;
         },
-        user: function user() {
+        badgeClass: function badgeClass() {
             return 'badge-' + this.color;
         }
     },
@@ -52154,15 +52177,18 @@ var render = function() {
   return _c("div", [
     _c(
       "li",
-      { staticClass: "list-group-item", class: _vm.className },
+      { staticClass: "list-group-item ", class: _vm.className },
       [_vm._t("default")],
       2
     ),
     _vm._v(" "),
     _c(
       "small",
-      { staticClass: "badge badge-pill float-sm-right", class: _vm.user },
-      [_vm._v("You")]
+      {
+        staticClass: "badge badge-pill float-sm-right ",
+        class: _vm.badgeClass
+      },
+      [_vm._v(_vm._s(_vm.user))]
     )
   ])
 }
