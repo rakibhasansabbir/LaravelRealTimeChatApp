@@ -24669,7 +24669,8 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                 this.chat.time.push(this.getTime());
 
                 axios.post('/send', {
-                    message: this.message
+                    message: this.message,
+                    chat: this.chat
 
                 }).then(function (response) {
                     console.log(response);
@@ -24682,36 +24683,55 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
         getTime: function getTime() {
             var time = new Date();
             return time.getHours() + ':' + time.getMinutes();
+        },
+        getOldMessages: function getOldMessages() {
+            var _this2 = this;
+
+            axios.post('/getOldMessage').then(function (response) {
+                console.log(response);
+                if (response.data != '') {
+                    _this2.chat = response.data;
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
         }
     },
 
     mounted: function mounted() {
-        var _this2 = this;
+        var _this3 = this;
 
+        this.getOldMessages();
         Echo.private('chat').listen('ChatEvent', function (e) {
 
-            _this2.chat.message.push(e.message);
-            _this2.chat.user.push(e.user);
-            _this2.chat.color.push('warning');
-            _this2.chat.side.push('right');
-            _this2.chat.time.push(_this2.getTime());
+            _this3.chat.message.push(e.message);
+            _this3.chat.user.push(e.user);
+            _this3.chat.color.push('warning');
+            _this3.chat.side.push('right');
+            _this3.chat.time.push(_this3.getTime());
+
+            axios.post('/saveToSession', {
+                chat: _this3.chat
+            }).then(function (response) {}).catch(function (error) {
+                console.log(error);
+            });
         }).listenForWhisper('typing', function (e) {
             if (e.name != '') {
-                _this2.typeing = 'typing...';
+                _this3.typeing = 'typing...';
                 console.log('typing...');
             } else {
-                _this2.typeing = '';
+                _this3.typeing = '';
             }
         });
 
         Echo.join('chat').here(function (users) {
-            _this2.onlineUser = users.length;
+            _this3.onlineUser = users.length;
         }).joining(function (user) {
-            _this2.onlineUser += 1;
-            _this2.$toaster.success(user.name + ' joined');
+            _this3.onlineUser += 1;
+            _this3.$toaster.success(user.name + ' joined');
         }).leaving(function (user) {
-            _this2.onlineUser -= 1;
-            _this2.$toaster.warning(user.name + ' leaved');
+            _this3.onlineUser -= 1;
+            _this3.$toaster.warning(user.name + ' leaved');
         });
     }
 });
