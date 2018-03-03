@@ -4,7 +4,7 @@
         <!--<time style="font-size: 9px; margin-top: 10px; color: black" >{{time}}</time>-->
             <ul>
                  <small class="badge badge-pill" :class="badgeClass">{{ user }}</small>
-                 <small class="alert-info">{{ time }}</small>
+                 <small style="color: black; margin-top: 10px; font-size: 9px" >{{ time }}</small>
              </ul>
 
         </li>
@@ -25,13 +25,7 @@
               return 'list-group-item-'+this.color+' text-'+this.side;
           },
           badgeClass(){
-              if (this.side == 'left'){
-
-                  return 'badge-'+this.color+' float-sm-right';
-              }else {
-                  return 'badge-'+this.color+' float-sm-left';
-
-              }
+              return 'badge-'+this.color;
           }
 
         },
